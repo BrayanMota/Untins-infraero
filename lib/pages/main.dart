@@ -1,51 +1,68 @@
 import 'package:flutter/material.dart';
+import '../widgets/custom_button.dart';
+import '../widgets/custom_input.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    title: 'Navigation Basics',
-    home: FirstRoute(),
-  ));
+  runApp(const MyApp());
 }
 
-class FirstRoute extends StatelessWidget {
-  const FirstRoute({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('First Route'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          child: const Text('Open route'),
-          onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SecondRoute()),
-            );
-          },
+    final TextEditingController controllerNumeroVoo = TextEditingController();
+    final TextEditingController controllerCompanhia = TextEditingController();
+    final TextEditingController controllerAeroporto = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Cadastro de Vôos'),
         ),
-      ),
-    );
-  }
-}
-
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Second Route'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Go back!'),
+        body: Column(
+          children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  CustomInput(
+                    label: 'Número do vôo',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo não preenchido';
+                      }
+                      return null;
+                    },
+                    controller: controllerNumeroVoo,
+                  ),
+                  CustomInput(
+                    label: 'Companhia',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo não preenchido';
+                      }
+                      return null;
+                    },
+                    controller: controllerCompanhia,
+                  ),
+                  CustomInput(
+                    label: 'Aeroporto',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Campo não preenchido';
+                      }
+                      return null;
+                    },
+                    controller: controllerAeroporto,
+                  ),
+                ],
+              ),
+            ),
+            CustomButton(onPressed: () {
+              if (_formKey.currentState!.validate()) {}
+            })
+          ],
         ),
       ),
     );
